@@ -1,0 +1,30 @@
+
+<form [formGroup]="questionForm">
+    <div formArrayName="questions" *ngFor="let course of questions.controls; index as i">
+        <div [formGroupName]="i">
+            <input formControlName="question" placeholder="Question">
+            <select name="select" formControlName="inputType">
+                <option *ngFor="let inputType of inputTypes" [value]="inputType">{{inputType}}</option>
+            </select>
+            <!-- {{questions.controls.inputType.value}}
+            {{questions.controls.get(value)}}
+          {{questions.controls['question'].value}} -->
+          <!-- {{i | json}} -->
+          <!-- {{questionForm.controls['questions'].value[i] | json}} -->
+          @if(questionForm.controls['questions'].value[i].inputType === 'radio'){
+              <input formControlName="option" placeholder="Option">
+              <button (click)="addOption(i)">Add Option</button>
+          }
+
+            <button (click)="removeQuestion(i)">Remove</button>
+       
+        </div>
+      </div>
+    
+   
+    <button (click)="addNextQuestion()">Add Question</button>
+
+</form>
+{{questionForm.value | json}}
+
+
