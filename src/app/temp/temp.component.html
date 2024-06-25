@@ -8,6 +8,16 @@
                         <i class="fa-solid fa-trash"></i>
                     </button>
                     <textarea class="form-control" formControlName="question" placeholder="Question" required></textarea>
+                   <!-- <ng-container *ngIf="ques.value.question.invalid">
+                   
+                    <p>erorr</p>
+                   </ng-container> -->
+                   @if(!questions.at(questionIndex).get('question')?.valid  &&
+                  (questions.at(questionIndex).get('question')?.touched ||
+                   questions.at(questionIndex).get('question')?.dirty)){
+                        <p>Error</p>
+                   }
+              
                     <select class="form-control" formControlName="optionType">
                         <option *ngFor="let inputType of inputTypes" [value]="inputType">{{ inputType }}</option>
                     </select>

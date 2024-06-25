@@ -15,6 +15,7 @@ export class TempComponent {
   questionsForm=new FormGroup({
     questions:new FormArray([this.createQuestion()])
   })
+  
   createQuestion(){
     const myform:FormGroup= new FormGroup({
       question:new FormControl('',[Validators.required]),
