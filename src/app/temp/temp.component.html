@@ -1,7 +1,7 @@
 <div class="forms">
     <div class="form-container">
         <form [formGroup]="questionsForm" (submit)="submitForm()">
-            <h1>Create Form</h1>
+            <h1 class="header">Create Form</h1>
             <ng-container formArrayName="questions" *ngFor="let ques of questions.controls; index as questionIndex">
                 <div class="question-container" [formGroupName]="questionIndex">
                     <button style="float:right;margin:0;margin-bottom: 0.2em;" (click)="removeQuestion(questionIndex)">
@@ -9,17 +9,16 @@
                     </button>
                     <textarea class="form-control" formControlName="question" placeholder="Question" required></textarea>
                    <!-- <ng-container *ngIf="ques.value.question.invalid">
-                   
                     <p>erorr</p>
                    </ng-container> -->
-                   @if(!questions.at(questionIndex).get('question')?.valid  &&
-                  (questions.at(questionIndex).get('question')?.touched ||
-                   questions.at(questionIndex).get('question')?.dirty)){
-                        <p>Error</p>
+                   @if(!questions.at(questionIndex).get('question')?.valid &&
+               (questions.at(questionIndex).get('question')?.dirty ||
+                   questions.at(questionIndex).get('question')?.touched)){
+                        <p style="margin: 0;color:red">question cannot be empty</p>
                    }
               
                     <select class="form-control" formControlName="optionType">
-                        <option *ngFor="let inputType of inputTypes" [value]="inputType">{{ inputType }}</option>
+                        <option *ngFor="let inputType of inputTypes" [value]="inputType" selected>{{ inputType }}</option>
                     </select>
                     @if(questionsForm.controls['questions'].value[questionIndex].optionType=== 'radio'
                     || questionsForm.controls['questions'].value[questionIndex].optionType=== 'checkbox'
@@ -27,10 +26,15 @@
                     <div class="option-container">
                         <div formArrayName="options"
                             *ngFor="let list of options(questionIndex).controls; index as optionIndex">
+                            
                             <input type="text" class="form-control" formControlName="{{ optionIndex }}">
-                            <button class="remove-option-btn" (click)="removeOption(questionIndex, optionIndex)">
-                                <i class="fa-solid fa-xmark"></i>
-                            </button>
+                            @if(options(questionIndex).value.length>1){
+                                <button class="remove-option-btn" (click)="removeOption(questionIndex, optionIndex)">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            }
+                            
+                         
                         </div>
                         <button class="add-option-btn" (click)="addOption(questionIndex)">Add Option</button>
                     </div>
@@ -38,16 +42,19 @@
 
                 </div>
             </ng-container>
-
+          
+            <div style="position: sticky; bottom: 0;margin: 0.4em;display: flex;">
             <button class="create-question-btn" (click)="addQuestion()">Create Question</button>
             <button class="submit-btn" type="submit" [disabled]="!questionsForm.valid">Submit</button>
+        </div>
         </form>
     </div>
 
 
     <div class="form-container">
-        <form [formGroup]="resultForm">
-            <h1>Generated Form</h1>
+        <h1 class="header">Generated Form</h1>
+        <form [formGroup]="resultForm" class="generated-form">
+            
             <ng-container *ngFor="let ques of questions.controls; index as questionIndex">
                 @if(ques.valid){
                 <label for="question">{{ ques.value.question }}</label>
@@ -94,8 +101,11 @@
                 </div>
                 }
             </ng-container>
+            <!-- {{questionsForm.value|json}} -->
+            @if(questionsForm.valid){
 
-            <button class="submit-btn" type="submit" [disabled]="!resultForm.valid">Submit</button>
+                <button class="submit-btn" type="submit" [disabled]="!resultForm.valid">Submit</button>
+            }
         </form>
     </div>
 </div>

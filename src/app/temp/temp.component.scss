@@ -1,6 +1,9 @@
 :host{
     width:100vw
 }
+.header{
+  position: sticky;top:0;background-color: beige;padding: 0.4em;
+}
 .forms{
     display: flex;
     // flex-wrap: wrap;
@@ -8,14 +11,17 @@
     // align-items: start;
     // align-content: start;
     justify-content: flex-start;
+    height: 100vh;
 }
 .form-container { 
     width: 40%;
     margin: auto;
     margin-top: 0.6em;
     border: 0.1em solid black;
-    padding: 0.4em;
-    
+    // padding: 0.4em;
+    height: calc(100% - 2.4em);
+    overflow: scroll;
+    scrollbar-width: none;
   }
   
   .form-container input,
@@ -27,7 +33,7 @@
 
   }
   textarea{
-    width: 90%;
+    width: 85%;
         padding: 8px;
   }
   .form-container button {
@@ -103,6 +109,11 @@
   .form-container .submit-btn:disabled:hover{
     background-color: #61615c;
  
+  }
+
+  .generated-form{
+    // margin: 0.6em;
+    padding: 0.6em;
   }
 
   
