@@ -13,7 +13,7 @@ import { JsonPipe } from '@angular/common';
 export class TempComponent {
   inputTypes = ['text','radio', 'checkbox', 'select', 'textarea'];
   questionsForm=new FormGroup({
-    questions:new FormArray([this.createQuestion()])
+    questions:new FormArray([this.createQuestion()  ])
   })
   
   createQuestion(){

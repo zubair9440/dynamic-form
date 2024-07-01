@@ -1,0 +1,80 @@
+<div class="main-container">
+    <div class="form-container">
+        <form [formGroup]="questionsForm">
+            <div class="questions-container" formArrayName="questions"
+                *ngFor="let ques of questions.controls;index as questionIndex">
+                <div [formGroupName]="questionIndex" class="question-container">
+                    <div class="save-move-btns-container">
+                        <button class="save-btn">Save</button>
+                        <button (click)="removeQuestion(questionIndex)" class="icon-btn"><i
+                                class="fa-solid fa-trash"></i></button>
+                        <button (click)="moveUpQuestion(questionIndex)" class="icon-btn"><i
+                                class="fa-solid fa-arrow-up"></i></button>
+                        <button (click)="moveDownQuestion(questionIndex)" class="icon-btn"><i
+                                class="fa-solid fa-arrow-down"></i></button>
+                    </div>
+                    @if(ques.value.type==='text'){
+                    <div class="question-input-container">
+                        <textarea formControlName="question" placeholder="question {{questionIndex+1}}"></textarea>
+                        <ng-container *ngIf="!ques.value.isLong else elseBlock">
+                            <input type="text" >
+                        </ng-container>
+                        <ng-template #elseBlock>
+                            <textarea  formControlName="answer" ></textarea>
+                        </ng-template>
+                    </div>
+
+                    <div class="checkbox-container">
+                        <input type="checkbox" formControlName="isRequired">Required
+                        <input type="checkbox" formControlName="isLong">Long Answer
+                    </div>
+                }
+                @else if(ques.value.type==='choice'){
+                    <div class="question-input-container">
+                        <textarea formControlName="question" placeholder="question {{questionIndex+1}}"></textarea>
+                        <ng-container formArrayName="options" *ngFor="let options of options(questionIndex).controls;index as optionIndex">
+                            <div [formGroupName]="optionIndex">
+                                <input type="checkbox" formControlName="box">
+                                <input type="text" formControlName="label" placeholder="option {{optionIndex+1}}">
+                                <button type="button" class="icon-btn" (click)=removeOption(questionIndex,optionIndex)><i class="fa-solid fa-remove"></i></button>
+                            </div>
+                        </ng-container>
+                        <button type="button" (click)="addOption(questionIndex)">Add Options</button>
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="checkbox" formControlName="isMultipleChoice">Multiple-Choice
+                        <input type="checkbox" formControlName="isRequired">Required
+                    </div>
+
+                }
+                @else{
+                    <div class="question-input-container">
+                        <textarea formControlName="question" placeholder="question {{questionIndex+1}}"></textarea>
+                        <input type={{ques.value.type}} formControlName="answer"> 
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="checkbox" formControlName="isRequired">Required
+                    </div>
+                }
+                
+            </div>
+    </div>
+    </form>
+    {{questionsForm.getRawValue() | json}}
+    {{questionsForm.value | json}}
+
+</div>
+<div class="add-create-btn">
+    <button (click)="addQuestion()" class="add-btn"><i class="fa-solid fa-plus"></i><span class="hide" #displayText>Add
+            new</span> </button>
+
+    <select class="custom-select" id="selectOption" (change)="onOptionSelected($event)" #displayOptions>
+        <option value="Select Your Choice" selected disabled>Select Your Choice</option>
+        <option value="Text">Text</option>
+        <option value="Choice">Choice</option>
+        <option value="Date">Date</option>
+        <option value="Dropdown">Dropdown</option>
+    </select>
+</div>
+</div>
+<h1>hello</h1>
